@@ -13,16 +13,17 @@ import cv2
 import json
 import copy
 import shutil
+from tqdm import tqdm 
 from tools.cocotools import get_classes
 
 
 if __name__ == '__main__':
     # 自定义数据集的注解转换成coco的注解格式。只需改下面5个即可。
-    train_path = 'annotation/voc2012_train.txt'
-    val_path = 'annotation/voc2012_val.txt'
-    classes_path = 'data/voc_classes.txt'
-    train_pre_path = '../VOCdevkit/VOC2012/JPEGImages/'   # 训练集图片相对路径
-    val_pre_path = '../VOCdevkit/VOC2012/JPEGImages/'     # 验证集图片相对路径
+    train_path = 'annotations/train.txt'
+    val_path = 'annotations/val.txt'
+    classes_path = 'txt/classes.txt'
+    train_pre_path = 'dataset/'   # 训练集图片相对路径
+    val_pre_path = 'dataset/'     # 验证集图片相对路径
 
 
     # 创建json注解目录
@@ -34,16 +35,16 @@ if __name__ == '__main__':
     print('Convert annotation files (txt format) into coco json format...')
     info = {
         'description': 'My dataset',
-        'url': 'https://github.com/miemie2013',
+        'url': 'none',
         'version': '1.0',
         'year': '2020',
-        'contributor': 'miemie2013',
+        'contributor': 'none',
         'date_created': '2020/06/01',
     }
     licenses_0 = {
-        'url': 'https://github.com/miemie2013',
+        'url': 'none',
         'id': 1,
-        'name': 'miemie2013 license',
+        'name': 'MIT license',
     }
     licenses = [licenses_0]
     categories = []
@@ -71,47 +72,52 @@ if __name__ == '__main__':
     annos = []
     im_id = 0
     anno_id = 0
-    for line in train_lines:
+    for line in tqdm(train_lines):
+        if len(line) <= 0 or line == " ": continue 
         anno_list = line.split()
-        ndarr = cv2.imread(train_pre_path + anno_list[0])
-        img_h, img_w, _ = ndarr.shape
-        image = {
-            'license': 1,
-            'file_name': anno_list[0],
-            'coco_url': 'a',
-            'height': img_h,
-            'width': img_w,
-            'date_captured': 'a',
-            'flickr_url': 'a',
-            'id': im_id,
-        }
-        images.append(image)
-        for p in range(1, len(anno_list), 1):
-            bbox = anno_list[p].split(',')
-            x1 = float(bbox[0])
-            y1 = float(bbox[1])
-            x2 = float(bbox[2])
-            y2 = float(bbox[3])
-            cid = int(bbox[4])
-            w = x2 - x1
-            h = y2 - y1
-            anno = {
-                'segmentation': [[]],
-                'area': w*h,
-                'iscrowd': 0,
-                'image_id': im_id,
-                'bbox': [x1, y1, w, h],
-                'category_id': cid,
-                'id': anno_id,
+        if len(anno_list) == 0: continue 
+        try: 
+            ndarr = cv2.imread(train_pre_path + anno_list[0])
+            img_h, img_w, _ = ndarr.shape
+            image = {
+                'license': 1,
+                'file_name': anno_list[0],
+                'coco_url': 'a',
+                'height': img_h,
+                'width': img_w,
+                'date_captured': 'a',
+                'flickr_url': 'a',
+                'id': im_id,
             }
-            annos.append(anno)
-            anno_id += 1
-        im_id += 1
+            images.append(image)
+            for p in range(1, len(anno_list), 1):
+                bbox = anno_list[p].split(',')
+                x1 = float(bbox[0])
+                y1 = float(bbox[1])
+                x2 = float(bbox[2])
+                y2 = float(bbox[3])
+                cid = int(bbox[4])
+                w = x2 - x1
+                h = y2 - y1
+                anno = {
+                    'segmentation': [[]],
+                    'area': w*h,
+                    'iscrowd': 0,
+                    'image_id': im_id,
+                    'bbox': [x1, y1, w, h],
+                    'category_id': cid,
+                    'id': anno_id,
+                }
+                annos.append(anno)
+                anno_id += 1
+            im_id += 1
+        except: print(anno_list, line) 
     train_json['annotations'] = annos
     train_json['images'] = images
     with open('annotation_json/%s.json' % anno_name[0].split('/')[1], 'w') as f2:
         json.dump(train_json, f2)
 
+    print(" ") 
     # val set
     with open(val_path) as f:
         val_lines = f.readlines()
@@ -119,8 +125,10 @@ if __name__ == '__main__':
     annos = []
     im_id = 0
     anno_id = 0
-    for line in val_lines:
+    for line in tqdm(val_lines):
+        if len(line) <= 0 or line == " ": continue 
         anno_list = line.split()
+        if len(anno_list) == 0: continue 
         ndarr = cv2.imread(val_pre_path + anno_list[0])
         img_h, img_w, _ = ndarr.shape
         image = {

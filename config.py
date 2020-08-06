@@ -15,18 +15,18 @@ class TrainConfig(object):
     """
     def __init__(self):
         # 自定义数据集
-        # self.train_path = 'annotation_json/voc2012_train.json'
-        # self.val_path = 'annotation_json/voc2012_val.json'
-        # self.classes_path = 'data/voc_classes.txt'
-        # self.train_pre_path = '../VOCdevkit/VOC2012/JPEGImages/'   # 训练集图片相对路径
-        # self.val_pre_path = '../VOCdevkit/VOC2012/JPEGImages/'     # 验证集图片相对路径
+        self.train_path = 'annotation_json/train.json'
+        self.val_path = 'annotation_json/val.json'
+        self.classes_path = 'annotation_json/classes.txt'
+        self.train_pre_path = '../dataset/'   # 训练集图片相对路径
+        self.val_pre_path = '../dataset/'     # 验证集图片相对路径
 
         # COCO数据集
-        self.train_path = '../COCO/annotations/instances_train2017.json'
-        self.val_path = '../COCO/annotations/instances_val2017.json'
-        self.classes_path = 'data/coco_classes.txt'
-        self.train_pre_path = '../COCO/train2017/'  # 训练集图片相对路径
-        self.val_pre_path = '../COCO/val2017/'  # 验证集图片相对路径
+        # self.train_path = '../COCO/annotations/instances_train2017.json'
+        # self.val_path = '../COCO/annotations/instances_val2017.json'
+        # self.classes_path = 'data/coco_classes.txt'
+        # self.train_pre_path = '../COCO/train2017/'  # 训练集图片相对路径
+        # self.val_pre_path = '../COCO/val2017/'  # 验证集图片相对路径
 
         # 训练时若预测框与所有的gt小于阈值self.iou_loss_thresh时视为反例
         self.iou_loss_thresh = 0.7
@@ -34,7 +34,7 @@ class TrainConfig(object):
         # 模式。 0-从头训练，1-读取之前的模型继续训练（model_path可以是'yolov4.h5'、'./weights/step00001000.h5'这些。）
         self.pattern = 1
         self.lr = 0.0001
-        self.batch_size = 8
+        self.batch_size = 16
         # 如果self.pattern = 1，需要指定self.model_path表示从哪个模型读取权重继续训练。
         self.model_path = 'yolov4.h5'
         # self.model_path = './weights/step00001000.h5'
@@ -45,7 +45,7 @@ class TrainConfig(object):
         # 每隔几步计算一次eval集的mAP
         self.eval_iter = 5000
         # 训练多少步
-        self.max_iters = 800000
+        self.max_iters = 100000
 
 
         # 验证
@@ -59,7 +59,7 @@ class TrainConfig(object):
         # 是否画出验证集图片
         self.draw_image = False
         # 验证时的批大小
-        self.eval_batch_size = 4
+        self.eval_batch_size = 8
 
 
         # ============= 数据增强相关 =============
