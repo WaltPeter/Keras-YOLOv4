@@ -8,12 +8,18 @@
 #
 # ================================================================
 
-import keras
 import tensorflow as tf
-import keras.layers as layers
-from keras import backend as K
-from keras.engine.topology import Layer
 from model.fastnms import fastnms
+
+from tensorflow.python import keras 
+from tensorflow.python.keras import layers
+from tensorflow.python.keras import backend as K
+from tensorflow.python.keras.layers import Layer, InputSpec
+
+# import keras
+# import keras.layers as layers
+# from keras import backend as K
+# from keras.engine.topology import Layer
 
 
 # 对坐标解码

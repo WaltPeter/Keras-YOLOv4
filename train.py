@@ -14,14 +14,19 @@ import json
 import time
 import threading
 import datetime
-import keras
 import random
 import copy
 import numpy as np
-import keras.layers as layers
 import os
 import tensorflow as tf
-from keras import backend as K
+
+# import keras
+# import keras.layers as layers
+# from keras import backend as K
+
+from tensorflow.python import keras
+from tensorflow.python.keras import layers
+from tensorflow.python.keras import backend as K
 
 from config import TrainConfig
 from model.yolov4 import YOLOv4
@@ -426,7 +431,7 @@ if __name__ == '__main__':
                     best_ap_list[0] = ap[0]
                     best_ap_list[1] = iter_id
                     model.save('./weights/best_model.h5') # Keras h5. 
-                    tf.saved_model.save(model, "./checkpoint") # TF SavedModel. 
+                    # tf.saved_model.save(model, "./checkpoint") # TF SavedModel. 
                 logger.info("Best test ap: {}, in iter: {}".format(
                     best_ap_list[0], best_ap_list[1]))
 
