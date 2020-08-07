@@ -1,5 +1,5 @@
-pip install tensorflow-gpu==1.12.2
-pip install keras==2.2.5
-pip install pydot
-pip install cython
-pip install pycocotools
+tensorflow-gpu==1.12.2
+keras==2.2.5
+pydot
+cython
+pycocotools
