@@ -425,7 +425,8 @@ if __name__ == '__main__':
                 if ap[0] > best_ap_list[0]:
                     best_ap_list[0] = ap[0]
                     best_ap_list[1] = iter_id
-                    model.save('./weights/best_model.h5')
+                    model.save('./weights/best_model.h5') # Keras h5. 
+                    tf.saved_model.save(model, "./checkpoint") # TF SavedModel. 
                 logger.info("Best test ap: {}, in iter: {}".format(
                     best_ap_list[0], best_ap_list[1]))
 
