@@ -51,15 +51,15 @@ class TrainConfig(object):
         # 验证
         # self.input_shape越大，精度会上升，但速度会下降。
         # self.input_shape = (320, 320)
-        # self.input_shape = (416, 416)
-        self.input_shape = (608, 608)
+        self.input_shape = (416, 416)
+        # self.input_shape = (608, 608)
         # 验证时的分数阈值和nms_iou阈值
         self.conf_thresh = 0.001
         self.nms_thresh = 0.45
         # 是否画出验证集图片
         self.draw_image = False
         # 验证时的批大小
-        self.eval_batch_size = 8
+        self.eval_batch_size = 16
 
 
         # ============= 数据增强相关 =============
