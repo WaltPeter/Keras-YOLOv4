@@ -274,7 +274,7 @@ if __name__ == '__main__':
     # 模式。 0-从头训练，1-读取之前的模型继续训练（model_path可以是'yolov4.h5'、'./weights/step00001000.h5'这些。）
     pattern = cfg.pattern
     if pattern == 1:
-        model_body.load_weights(cfg.model_path, by_name=True, skip_mismatch=True)
+        model_body.load_weights(cfg.model_path, by_name=True) # , skip_mismatch=True)
         strs = cfg.model_path.split('step')
         if len(strs) == 2:
             iter_id = int(strs[1][:8])
