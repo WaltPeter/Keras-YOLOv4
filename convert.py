@@ -288,7 +288,7 @@ if __name__ == '__main__':
     model_body = YOLOv4(inputs, num_classes, num_anchors)
     _decode = Decode(cfg.conf_thresh, cfg.nms_thresh, cfg.input_shape, model_body, class_names)
 
-    model_body.load_weights(cfg.model_path, by_name=True, skip_mismatch=True) 
+    model_body.load_weights(cfg.model_path, by_name=True) 
 
     y_true = [
         layers.Input(name='input_2', shape=(None, None, 3, (num_classes + 5))),  # label_sbbox
